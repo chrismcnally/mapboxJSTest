@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8' />
+    <title></title>
+    <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+    <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.6.0/mapbox-gl.js'></script>
+    <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.6.0/mapbox-gl.css' rel='stylesheet' />
+    <script src="citibike3.js"></script>
+    <style>
+        body { margin:0; padding:0; }
+        #map { position:absolute; top:0; bottom:0; width:100%; }
+    </style>
+</head>
+<body>
+
+<div id='map'></div>
+<script>
+mapboxgl.accessToken = 'pk.eyJ1IjoiY2hyaXNtY25hbGx5IiwiYSI6ImdTYU5tRE0ifQ.UrPvMZrna4-dpRXU6CZowg';
+mapboxgl.util.getJSON('https://www.mapbox.com/mapbox-gl-styles/styles/outdoors-v7.json', function (err, style) {
+  if (err) throw err;
+
+  style.layers.push({
+    "id": "markers",
+    "type": "symbol",
+    "source": "markers",
+    "layout": {
+      "icon-image": "{marker-symbol}-12",
+      "text-field": "{title}",
+      "text-font": "Open Sans Semibold, Arial Unicode MS Bold",
+      "text-offset": [0, 0.6],
+      "text-anchor": "top"
+    },
+    "paint": {
+      "text-size": 12
+    }
+  });
+
+var map = new mapboxgl.Map({
+    container: 'map',
+    style: style,
+    center: [40.680342423, -73.9557689392],
+    zoom: 13
+  });
+// Add zoom and rotation controls to the map.
+map.addControl(new mapboxgl.Navigation());
+
+var geoxJSON = {
+    "type": "FeatureCollection",
+    "features": [
+        {
+            "geometry": {
+                "coordinates": [
+                    -73.99392888, 
+                    40.76727216
+                ], 
+                "type": "Point"
+            }, 
+            "properties": {
+                "marker-symbol": "monument", 
+                "title": "W 52 St & 11 Ave"
+            }, 
+            "type": "Feature"
+        },
+        {
+            "geometry": {
+                "coordinates": [
+                    -74.00666661, 
+                    40.71911552
+                ], 
+                "type": "Point"
+            }, 
+            "properties": {
+                "marker-symbol": "monument", 
+                "title": "Franklin St & W Broadway"
+            }, 
+            "type": "Feature"
+        }, 
+        {
+            "geometry": {
+                "coordinates": [
+                    -74.00016545, 
+                    40.71117416
+                ], 
+                "type": "Point"
+            }, 
+            "properties": {
+                "marker-symbol": "monument", 
+                "title": "St James Pl & Pearl St"
+            }, 
+            "type": "Feature"
+        }, 
+        {
+            "geometry": {
+                "coordinates": [
+                    -73.97632328, 
+                    40.68382604
+                ], 
+                "type": "Point"
+            }, 
+            "properties": {
+                "marker-symbol": "monument", 
+                "title": "Atlantic Ave & Fort Greene Pl"
+            }, 
+            "type": "Feature"
+        }, 
+        {
+            "geometry": {
+                "coordinates": [
+                    -74.00149746, 
+                    40.74177603
+                ], 
+                "type": "Point"
+            }, 
+            "properties": {
+                "marker-symbol": "monument", 
+                "title": "W 17 St & 8 Ave"
+            }, 
+            "type": "Feature"
+        }
+
+        ]};
+  var markers = new mapboxgl.GeoJSONSource({ data: geoJSON });
+  map.addSource('markers', markers);
+});
+
+</script>
+</body>
+</html>
+
